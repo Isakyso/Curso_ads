@@ -26,17 +26,17 @@ public class Jogo21 {
 
     void iniciarJogo() {
 
-        mao.clear();
-        maobanca.clear();
+        mao.clear(); // ''limpa'' o arraylist da mão do jogador
+        maobanca.clear(); // ''limpa'' o arraylist da mão da banca
 
-        mao.add(deck.remove(deck.size() - 1));
+        mao.add(deck.remove(deck.size() - 1)); // retira a carta do deck e da ao jogador
         mao.add(deck.remove(deck.size() - 1));
 
-        maobanca.add(deck.remove(deck.size() - 1));
+        maobanca.add(deck.remove(deck.size() - 1)); // retira a carta do deck e da para a banca
         maobanca.add(deck.remove(deck.size() - 1));
 
         total = calcularTotal(mao);
-        totalbanca = calcularTotal(maobanca);
+        totalbanca = calcularTotal(maobanca);   // calcula o total da mão do jogador e da banca
     }
 
     CartaDoBaralho comprarCarta() {
@@ -48,7 +48,7 @@ public class Jogo21 {
         total = calcularTotal(mao);
 
         return novaCarta;
-    }
+    } // faz o ato de puxar uma nova carta
 
     void jogarBanca() {
 
@@ -74,7 +74,7 @@ public class Jogo21 {
             if (maoRecebida.get(i).valor.equals("A")) {
                 ases++;
             }
-        }
+        }  // define a quantidade de pontos adquiridas
 
         while (total > 21 && ases > 0) {
             total = total - 10;

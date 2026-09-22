@@ -5,7 +5,7 @@ public class CartaDoBaralho {
 
     CartaDoBaralho(String valor, String naipe) {
         this.valor = valor;
-        this.naipe = naipe;
+        this.naipe = naipe; // construtor da carta
     }
 
     int pontos() {
