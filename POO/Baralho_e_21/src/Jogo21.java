@@ -22,6 +22,8 @@ public class Jogo21 {
         }
 
         Collections.shuffle(deck); // embaralha o deck
+
+        IO.println("Baralho criado e embaralhado!");
     }
 
     void iniciarJogo() {
@@ -36,7 +38,47 @@ public class Jogo21 {
         maobanca.add(deck.remove(deck.size() - 1));
 
         total = calcularTotal(mao);
-        totalbanca = calcularTotal(maobanca);   // calcula o total da mão do jogador e da banca
+        totalbanca = calcularTotal(maobanca); // calcula o total da mão do jogador e da banca
+
+        IO.println("Começou o jogo!");
+        IO.println("Suas cartas: " + mao);
+        IO.println("Seu total: " + total);
+
+        IO.println("Cartas da banca: " + maobanca);
+        IO.println("Total da banca: " + totalbanca);
+
+        boolean continuar = true;
+
+        while (continuar && total <= 21) {
+
+            IO.println("Deseja comprar outra carta? (sim/nao)");
+            String resposta = IO.readln();
+
+            if (resposta.equalsIgnoreCase("sim")) {
+
+                comprarCarta();
+
+            } else if (resposta.equalsIgnoreCase("nao")) {
+
+                continuar = false;
+
+            } else {
+
+                IO.println("Resposta inválida. Digite sim ou nao.");
+            }
+        } // pergunta ao jogador se ele quer continuar jogando ou não
+
+        if (total <= 21) {
+            jogarBanca();
+        }
+
+        IO.println("Suas cartas finais: " + mao);
+        IO.println("Seu total final: " + total);
+
+        IO.println("Cartas finais da banca: " + maobanca);
+        IO.println("Total final da banca: " + totalbanca); // encerra o jogo
+
+        IO.println(resultado());
     }
 
     CartaDoBaralho comprarCarta() {
@@ -47,10 +89,16 @@ public class Jogo21 {
 
         total = calcularTotal(mao);
 
+        IO.println("Você comprou: " + novaCarta);
+        IO.println("Suas cartas agora: " + mao);
+        IO.println("Seu total agora: " + total);
+
         return novaCarta;
     } // faz o ato de puxar uma nova carta
 
     void jogarBanca() {
+
+        IO.println("A banca vai jogar...");
 
         while (totalbanca < 17) {
 
@@ -59,7 +107,14 @@ public class Jogo21 {
             maobanca.add(novaCarta);
 
             totalbanca = calcularTotal(maobanca);
+
+            IO.println("A banca comprou: " + novaCarta);
+            IO.println("Cartas da banca: " + maobanca);
+            IO.println("Total da banca: " + totalbanca);
+
         } // condição para banca continuar jogando
+
+        IO.println("A banca parou com " + totalbanca + " pontos.");
     }
 
     int calcularTotal(ArrayList<CartaDoBaralho> maoRecebida) {
@@ -87,10 +142,12 @@ public class Jogo21 {
     String resultado() {
 
         if (total > 21) {
+            IO.println("Você estourou!");
             return "Você perdeu!";
         }
 
         if (totalbanca > 21) {
+            IO.println("A banca estourou!");
             return "Você ganhou!";
         }
 

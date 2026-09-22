@@ -17,4 +17,8 @@ public class CartaDoBaralho {
             return Integer.parseInt(valor);  // define os valores das cartas
         }
     }
+    @Override
+    public String toString() {
+        return valor + naipe;
+    } // transforma os valores em string para a leitura
 }
