@@ -1,93 +1,163 @@
 public class ListaEncadeadaBiblioteca {
 
-    node head;// head guarda o primeiro nó da lista por isso que tem que ser node
-    int tamanho; // cria o tamanho da lista
-
+    private node head;
+    private int size;
 
     public ListaEncadeadaBiblioteca() {
-        this.head = null;
-        this.tamanho = 0; // apenas define que a lista começa no tamanho 0
+        head = null; // head começa nulo pois a lista esta vazia
+        size = 0;  // tamnho da fila
     }
 
-    public void InserirNoInicio(Aluno aluno) {
-        node newNode = new node(aluno);
-
-        newNode.proximo = head;
-        head = newNode;  // faz primeiro com que o proximo do novo nó aponte para o Head atual e em seguida ''atualiza'' o novo nó tornando-o o novo head
-        tamanho++; // atualiza o tamanho da lista
+    public boolean isEmpty() {
+        return head == null; // mostra se a lista esta vazia
     }
 
-    public void InserirNoFinal(Aluno aluno) {
-        node newNode2 = new node(aluno); // cria o novo nó
-        node nodeatual = this.head; // transforma o node atual no this head
+    public int size() {
+        return size;  // mostra o tamanho da lista
+    }
 
-        if (this.head == null) {  // executa apenas se o nó apontar para o ''nulo''
-            this.head = newNode2; // atualiza o head para o novo nó
-            tamanho++; // aumenta o tamanho
+    public void insertFirst(Aluno aluno) {
+
+        node novo = new node(aluno);
+
+        novo.proximo = head;
+        head = novo; // faz o novo nó se tornar o head atual
+
+        size++; // aumenta o tamanho
+    }
+
+    public void insertEnd(Aluno aluno) {
+
+        node novo = new node(aluno);
+
+        if (head == null) {
+            head = novo; // transforma o nó criado no atual head da lista
+            size++;
             return;
-        } else {
-            while (nodeatual.proximo != null) { // essa condição faz o while parar antes que o proximo elemento ser nulo
-                nodeatual = nodeatual.proximo; // faz a variavel ''nodeatual'' avançar
-            }
-        }
-        nodeatual.proximo = newNode2; // Conecta o proximo do no atual com newNode2
-        tamanho++; // incrementa o tamanho
-    }
-
-    public void exibirLista() {
-        node nodeatual = this.head; // transforma o node atual no this head
-        while (nodeatual != null) { // exibe o nó atual enquanto existir um nó
-            IO.println(nodeatual.aluno);
-            nodeatual = nodeatual.proximo; // transforma o node atual no node que antes era o proximo dele
-        }
-    }
-
-    public boolean estaVazia() {
-        return head == null; // se o head for nulo ele apenas retorna a palavra ''nulo''
-    }
-
-    public int getTamanho() {
-        return tamanho; // getter do tamanho
-    }
-
-    public void removerdoInicio() {
-        if (estaVazia()) {
-            return; //se a lista estiver vazia ele retorna nada
-        }
-        head = head.proximo; // faz com que o head aponte para o proximo meio que ignorando o primeiro nó da lista
-        tamanho--;
-    }
-
-    public void removerdoFim() {
-        node nodeatual = this.head; // transforma o node atual no this head
-
-        if (estaVazia()) {
-            return; // para o codigo caso a lista estiver vazia
         }
 
-        if (head.proximo == null) { // parar o metodo para caso a lista so tenha 1 elemento
+        node atual = head;
+
+        while (atual.proximo != null) { // essa condiçao faz o while parar antes que proximo no seja nulo
+            atual = atual.proximo;
+        }
+
+        atual.proximo = novo; // transforma o proximo Nó no Nó atual
+        size++;
+    }
+
+    public void removeFirst() {
+
+        if (head == null) {
+            return;
+        }  // condiçao de segurança quaso a lista esteja vazia
+
+        head = head.proximo;
+        size--;  // desconecta o Nó atual da lista "Isolando-o"
+    }
+
+    public void removeEnd() {
+
+        if (head == null) {
+            return; // condiçao de segurança quaso a lista esteja vazia
+        }
+
+        if (head.proximo == null) {
             head = null;
-            tamanho--;
+            size--;
             return;
         }
-        while (nodeatual.proximo.proximo != null) { // faz parar 1 nó antes(é meio complicado mesmo)
-            nodeatual = nodeatual.proximo;// transforma o node atual no seu nó que vem após dele
+
+        node atual = head;
+
+        while (atual.proximo.proximo != null) {
+            atual = atual.proximo;
         }
 
-        nodeatual.proximo = null; // faz o proximo do no atual ficar nulo
-        tamanho--; // diminui o tamanho
+        atual.proximo = null;
+        size--; // diminui o tamanho
     }
 
-    public Aluno BuscarAluno(String matricula) {
-        node nodeatual = this.head;
-        while (nodeatual != null) { // faz o codigo continuar até o atual ser nulo
+    public void print() {
 
-            if (nodeatual.aluno.getMatricula().equals(matricula)) { // e o no atual for igual a matricula desejada ele para
-                return nodeatual.aluno;
-            }
-            nodeatual = nodeatual.proximo;
+        node atual = head;
+
+        while (atual != null) {
+
+            System.out.println(atual.aluno);
+
+            atual = atual.proximo;   // apenas mostra os Nós registrados na lista
         }
-        return null;
+    }
 
+    public Aluno getFirst() {
+
+        if (head == null) {
+            return null; // condiçao de segurança quaso a lista esteja vazia
+        }
+
+        return head.aluno;
+    }
+
+    public Aluno search(String matricula) {
+
+        node atual = head;
+
+        while (atual != null) {
+
+            if (atual.aluno.getMatricula().equals(matricula)) { // executa o getmatricula e se a matricula registrada no Nó atual for igual
+                return atual.aluno; // retorna as informaçoes do aluno
+            }
+
+            atual = atual.proximo;
+        }
+
+        return null;
+    }
+
+    public boolean contains(String matricula) {
+
+        node atual = head;
+
+        while (atual != null) {
+
+            if (atual.aluno.getMatricula().equals(matricula)) {
+                return true;
+            }
+
+            atual = atual.proximo;
+        }
+
+        return false;
+    }  // confere se a matricula desejada esta presente na lista
+
+    public boolean remove(String matricula) {
+
+        if (head == null) {
+            return false;
+        }
+
+        if (head.aluno.getMatricula().equals(matricula)) {
+            head = head.proximo; // faz o nó apos o head se transformar no head atual
+            size--; // diminui o tamanho
+            return true;
+        }
+
+        node atual = head;
+
+        while (atual.proximo != null) {
+
+            if (atual.proximo.aluno.getMatricula().equals(matricula)) {
+
+                atual.proximo = atual.proximo.proximo;
+                size--;
+
+                return true;
+            }   // procura pela matricula registrada na classe aluno enquanto a lista nao for nula
+
+            atual = atual.proximo;
+        }
+
+        return false;
     }
 }
